@@ -1,7 +1,7 @@
 # For Windows
-set FLASK_APP=main
-flask run
+## set FLASK_APP=main
+## flask run
 
 # For Mac
-export FLASK_APP=main.py
-flask run
+## export FLASK_APP=main.py
+## flask run
