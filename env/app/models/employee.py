@@ -1,7 +1,13 @@
 class Employee:
-    def __init__(self, Name):
+    def __init__(self, Name, CMND, Phone, Company, Reason, DueDate, Image=None):
         self.ID = 0
         self.Name = Name
+        self.CMND = CMND
+        self.Phone = Phone
+        self.Company = Company
+        self.Reason = Reason
+        self.DueDate = DueDate
+        self.Image = Image
         self.Status = 0
 
     @staticmethod
