@@ -49,13 +49,14 @@ class Employee:
             else:
                 __current_index_json = json.loads(__current_index)
                 id = int(__current_index_json['Employee']) + 1
+        with open(CURRENT_WD + '/datas/index.txt', 'w+' ) as f:
+            f.write(json.dumps({'Employee': id}))
         return id 
 
     @staticmethod
     def insertEmployeeToDatabase(employee):
-        data = json.dumps(employee.__dict__)
         with open(LOCAL_FILE, 'a+') as f:
-            f.write(data) 
+            f.write(employee) 
             f.write('\n')
         return True
 
@@ -67,11 +68,11 @@ class Employee:
             return False
         employee.ID = Employee.createNewID()
         employee.Status = Status.INIT.value
-        employee.DueDate = employee.DueDate.strftime("%Y-%m-%d %H:%M:%S")
+        employee.DueDate = employee.DueDate.strftime("%Y-%m-%d")
         employee.CreatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         employee.UpdatedAt = employee.CreatedAt
-        
-        return insertEmployeeToDatabase(data)
+        data = json.dumps(employee.__dict__)
+        return Employee.insertEmployeeToDatabase(data)
 
     @staticmethod
     def getEmployeesByStatus(statuses):
@@ -132,14 +133,14 @@ class Employee:
 
         return Employee.insertEmployeeToDatabase(emp)
     
-if __name__ == "__main__":
-    # _new_emp = {'Name' : 'MaiAnh_123', 
-    #             'CMND': 123456, 
-    #             'Phone': 78910, 
-    #             'Company': 'ABC' , 
-    #             'Reason': 'new', 
-    #             # 'DueDate': '2020-03-04', 
-    #             'Image': None }
+# if __name__ == "__main__":
+#     _new_emp = {'Name' : 'MaiAnh_abcd', 
+#                 'CMND': 123456, 
+#                 'Phone': 78910, 
+#                 'Company': 'ABC' , 
+#                 'Reason': 'new', 
+#                 'DueDate': datetime.now(), 
+#                 'Image': None }
     # __test_dict = { 'ID' : 7,
     #                 'Name' : 'MaiAnh_123', 
     #                 'CMND': 123456, 
@@ -148,10 +149,10 @@ if __name__ == "__main__":
     #                 'Reason': 'new', 
     #                 # 'DueDate': '2020-03-04', 
     #                 'Image': None }
-    # # Employee.insertEmployee(Employee(**_new_emp))
+    # print(Employee.insertEmployee(Employee(**_new_emp)))
     # # maianh_07 = Employee(**__test_dict)
     # print('__1', Employee.getEmployeeByID(3))
     # print('__2',Employee.getAllEmployeesByID([2,3]))
     # print('__3',Employee.getEmployeesByStatus([0,1]))
-    a = '{"ID": 3, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 2, "CreatedAt": null, "UpdatedAt": "2020-04-12 00:52:29"}'
-    print(Employee.cast(a))
+    # a = '{"ID": 3, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 2, "CreatedAt": null, "UpdatedAt": "2020-04-12 00:52:29"}'
+    # print(Employee.cast(a))
