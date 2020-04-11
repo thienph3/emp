@@ -11,3 +11,6 @@ def index():
         #flash('Có gì đó sai sai.')
         #return render_template('employee/index.html', form=form)
     return render_template('employee/index.html', form=form)
+
+def list():
+    return render_template('employee/list.html', form=None)
