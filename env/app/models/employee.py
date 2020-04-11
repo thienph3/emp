@@ -32,12 +32,12 @@ class Employee:
 
     @staticmethod
     def cast(e):
-        #e = json.loads(e)
-        #e['DueDate'] = Employee.datetime_to_string('DueDate', e, "%Y-%m-%d") 
-        #e['CreatedAt'] = Employee.datetime_to_string('CreatedAt', e, "%Y-%m-%d %H:%M:%S") 
-        #e['UpdatedAt'] = Employee.datetime_to_string('UpdatedAt', e, "%Y-%m-%d %H:%M:%S") 
-        #return Employee(**e)
-        return Employee(e['Name'], e['CMND'], e['Phone'], e['Company'], e['Reason'], e['DueDate'], e['Image'], e['ID'], e['CreatedAt'], e['Status'], e['UpdatedAt'])
+        # e = json.loads(e)
+        e['DueDate'] = Employee.datetime_to_string('DueDate', e, "%Y-%m-%d") 
+        e['CreatedAt'] = Employee.datetime_to_string('CreatedAt', e, "%Y-%m-%d %H:%M:%S") 
+        e['UpdatedAt'] = Employee.datetime_to_string('UpdatedAt', e, "%Y-%m-%d %H:%M:%S") 
+        return Employee(**e)
+        # return Employee(e['Name'], e['CMND'], e['Phone'], e['Company'], e['Reason'], e['DueDate'], e['Image'], e['ID'], e['CreatedAt'], e['Status'], e['UpdatedAt'])
 
     @staticmethod
     def createNewID():
@@ -55,15 +55,14 @@ class Employee:
 
     @staticmethod
     def insertEmployeeToDatabase(employee):
+        data = json.dumps(employee.__dict__)
         with open(LOCAL_FILE, 'a+') as f:
-            f.write(employee) 
+            f.write(data) 
             f.write('\n')
         return True
 
     @staticmethod
     def insertEmployee(employee):
-        # import pdb
-        # pdb.set_trace()
         if employee.ID != 0:
             return False
         employee.ID = Employee.createNewID()
@@ -71,8 +70,8 @@ class Employee:
         employee.DueDate = employee.DueDate.strftime("%Y-%m-%d")
         employee.CreatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         employee.UpdatedAt = employee.CreatedAt
-        data = json.dumps(employee.__dict__)
-        return Employee.insertEmployeeToDatabase(data)
+        
+        return Employee.insertEmployeeToDatabase(employee)
 
     @staticmethod
     def getEmployeesByStatus(statuses):
@@ -130,7 +129,8 @@ class Employee:
             return False
         emp.Status = employee.Status
         emp.UpdatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+        emp.DueDate = emp.DueDate.strftime("%Y-%m-%d")
+        emp.CreatedAt = emp.CreatedAt.strftime("%Y-%m-%d %H:%M:%S")
         return Employee.insertEmployeeToDatabase(emp)
     
 # if __name__ == "__main__":
