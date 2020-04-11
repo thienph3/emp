@@ -20,5 +20,5 @@ def list():
     list = Employee.getEmployeesByStatus([])
     return render_template('employee/list.html', list=list)
 
-def update(employee):
-    return Employee.updateEmployeeByID(employee)
+def update(ID, Status):
+    return Employee.updateEmployeeByID(Employee('', '', '', '', '', '', '', ID, datetime.now(), Status, datetime.now()))

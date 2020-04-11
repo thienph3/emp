@@ -1,6 +1,6 @@
 from flask import Flask, request
 from app.controllers import employee_controller
-import os
+import os, json
 
 TEMPLATE_DIR = os.path.abspath('env/app/views')
 STATIC_DIR = os.path.abspath('env/app/plugins')
@@ -22,8 +22,13 @@ def list():
     return employee_controller.list()
 
 @app.route('/update', methods=['POST'])
-def update(employee):
-    return employee_controller.update(employee)
+def update():
+    d = {}
+    for i in [i.split('=') for i in request.data.decode('utf-8').split('&')]:
+        d[i[0]] = int(i[1])
+    ID = d['ID']
+    Status = d['Status']
+    return str(employee_controller.update(ID, Status))
 
 
 if __name__ == "__main__":

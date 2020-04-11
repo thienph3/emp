@@ -40,8 +40,9 @@ class Employee:
 
     @staticmethod
     def insertEmployeeToDatabase(employee):
+        data = json.dumps(employee.__dict__)
         with open(LOCAL_FILE, 'a+') as f:
-            f.write(employee) 
+            f.write(data) 
             f.write('\n')
         return True
 
@@ -56,7 +57,6 @@ class Employee:
         employee.DueDate = employee.DueDate.strftime("%Y-%m-%d %H:%M:%S")
         employee.CreatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         employee.UpdatedAt = employee.CreatedAt
-        data = json.dumps(employee.__dict__)
         
         return insertEmployeeToDatabase(data)
 
@@ -90,7 +90,7 @@ class Employee:
         emp = Employee.getEmployeeByID(employee.ID)
         if emp is None:
             return False
-        if !((emp.Status == 0 and employee.Status in (1, 2)) or (emp.Status == 2 and employee.Staus == 1)):
+        if not((emp.Status == 0 and employee.Status in (1, 2)) or (emp.Status == 2 and employee.Status == 1)):
             return False
         emp.Status = employee.Status
         emp.UpdatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

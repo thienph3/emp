@@ -39,22 +39,83 @@
                 <td>{{ e.Company }}</td>
                 <td>{{ e.Reason }}</td>
                 <td>{{ e.DueDate }}</td>
-                <td class="project-actions text-right">
+                <td class="project-actions text-center">
                     {% if e.Status == 0 %}
-                    <a class="btn btn-primary btn-sm" href="#">
+                    <button class="btn btn-primary btn-sm form-click" data-id='{{ e.ID }}' data-btn='1'>
                         <i class="fas fa-edit"></i>
                         Chấp nhận
-                    </a>
-                    <a class="btn btn-danger btn-sm" href="#">
+                    </button>
+                    <button class="btn btn-danger btn-sm form-click" data-id='{{ e.ID }}' data-btn='2'>
                         <i class="fas fa-trash"></i>
                         Từ chối
-                    </a>
+                    </button>
                     {% elif e.Status == 1 %}
+                    <button class="btn btn-success btn-sm" disabled>
+                        <i class="fas fa-edit"></i>
+                        Đã chấp nhận
+                    </button>
                     {% elif e.Status == 2 %}
+                    <button class="btn btn-danger btn-sm" disabled>
+                        <i class="fas fa-edit"></i>
+                        Đã từ chối
+                    </button>
                     {% endif %}
                 </td>
             </tr>
             {% endfor %}
+            <script type="text/javascript">
+                $(function() {
+                    $(".form-click").click(function(){
+                        id = parseInt($(this).attr("data-id"));
+                        status = parseInt($(this).attr("data-btn"));
+                        $.ajax({
+                            type : 'POST',
+                            url : "/update",
+                            contentType: 'application/json;charset=UTF-8',
+                            data : {ID: id, Status: status},
+                            success: function(response) {
+                                if (response == 'True') {
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    });
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: 'Cập nhật thành công.'
+                                    }).then(function() {
+                                        window.location.href = '/list';
+                                    });
+                                } else {
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000
+                                    });
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Có gì đó sai sai.'
+                                    });
+                                }
+                            },
+                            error: function(error) {
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                });
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: error
+                                });
+                            }
+                        });
+                    });
+                });
+            </script>
         </tbody>
     </table>
   </div>
