@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 import os
-from env.app.models.enum import Status
+from app.models.enum import Status
 
 # CURRENT_WD = os.path.dirname(os.path.realpath(__file__))
 CURRENT_WD = os.path.abspath('env/app')
@@ -20,8 +20,8 @@ class Employee:
         self.DueDate = DueDate
         self.Image = Image
         self.Status = Status
-        self.CreatedAt = Created_At
-        self.UpdatedAt = Updated_At
+        self.CreatedAt = CreatedAt
+        self.UpdatedAt = UpdatedAt
 
     @staticmethod
     def datetime_to_string(cols, e, format_string):
@@ -32,12 +32,12 @@ class Employee:
 
     @staticmethod
     def cast(e):
-        e = json.loads(e)
-        e['DueDate'] = Employee.datetime_to_string('DueDate', e, "%Y-%m-%d") 
-        e['CreatedAt'] = Employee.datetime_to_string('CreatedAt', e, "%Y-%m-%d %H:%M:%S") 
-        e['UpdatedAt'] = Employee.datetime_to_string('UpdatedAt', e, "%Y-%m-%d %H:%M:%S") 
-        return Employee(**e)
-        # return Employee(e['Name'], e['CMND'], e['Phone'], e['Company'], e['Reason'], e['DueDate'], e['Image'], e['ID'], e['CreatedAt'], e['Status'], e['UpdatedAt'])
+        #e = json.loads(e)
+        #e['DueDate'] = Employee.datetime_to_string('DueDate', e, "%Y-%m-%d") 
+        #e['CreatedAt'] = Employee.datetime_to_string('CreatedAt', e, "%Y-%m-%d %H:%M:%S") 
+        #e['UpdatedAt'] = Employee.datetime_to_string('UpdatedAt', e, "%Y-%m-%d %H:%M:%S") 
+        #return Employee(**e)
+        return Employee(e['Name'], e['CMND'], e['Phone'], e['Company'], e['Reason'], e['DueDate'], e['Image'], e['ID'], e['CreatedAt'], e['Status'], e['UpdatedAt'])
 
     @staticmethod
     def createNewID():
