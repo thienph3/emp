@@ -1,0 +1,7 @@
+env/__pycache__
+env/bin
+env/Include
+inv/instance
+env/Lib
+env/Scripts
+env/celery_worker.py
