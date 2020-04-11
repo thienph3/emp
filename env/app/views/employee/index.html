@@ -1,232 +1,57 @@
-{% from "forms.html" import form_field %}
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>EMP | Thêm nhân viên mới</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends "base.html" %}
+{% block title %}Thêm nhân viên mới{% endblock %}
+{% block title2 %}Thêm nhân viên mới{% endblock %}
+{% block title3 %}Thêm nhân viên mới{% endblock %}
+{% block path %}{% endblock %}
+{% block content %}
+<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Thông tin chung</h3>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free/css/all.min.css') }}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- SweetAlert 2 -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
-  <!-- Toastr -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='toastr/toastr.min.css') }}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <!-- jQuery -->
-  <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
-</head>
-<body class="hold-transition layout-top-nav">
-<!-- Site wrapper -->
-<div class="wrapper">
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Thêm nhân viên mới</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-              <li class="breadcrumb-item active">Thêm nhân viên mới</li>
-            </ol>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+              <i class="fas fa-minus"></i></button>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-    <form action="" method="post" novalidate>
-      {{ form.hidden_tag() }}
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Thông tin chung</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fas fa-minus"></i></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="form-group">
-                {{ form_field(form.name) }}
-                {{ form.name(size=32, class='form-control') }}
-                {% if form.name.errors %}
-                  {% for error in form.name.errors %}
-                    <script type="text/javascript">
-                        $(function() {
-                          const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                          });
-                          Toast.fire({
-                            icon: 'error',
-                            title: '{{ error }}'
-                          })
-                        });
-                    </script>
-                  {% endfor %}
-                {% endif %}
-              </div>
-              <div class="form-group">
-                {{ form_field(form.cmnd) }}
-                {{ form.cmnd(size=32, class='form-control', data_inputmask="'mask': ['999.999.999', '999.999.999.999']", data_mask='') }}
-                {% if form.cmnd.errors %}
-                  {% for error in form.cmnd.errors %}
-                    <script type="text/javascript">
-                        $(function() {
-                          const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                          });
-                          Toast.fire({
-                            icon: 'error',
-                            title: '{{ error }}'
-                          })
-                        });
-                    </script>
-                  {% endfor %}
-                {% endif %}
-              </div>
-              <div class="form-group">
-                {{ form_field(form.phone) }}
-                {{ form.phone(size=32, class='form-control', data_inputmask="'mask': ['0999.999.999', '+99 999.999.999']", data_mask='') }}
-              </div>
-              <div class="form-group">
-                {{ form_field(form.company) }}
-                {{ form.company(size=32, class='form-control') }}
-              </div>
-              <div class="form-group">
-                {{ form_field(form.reason) }}
-                {{ form.reason(size=32, class='form-control') }}
-              </div>
-              <div class="form-group">
-                {{ form_field(form.dueDate) }}
-                {{ form.dueDate(class='form-control', data_inputmask_alias='datetime', data_inputmask_inputformat='dd/mm/yyyy', data_mask='') }}
-                {% if form.dueDate.errors %}
-                  {% for error in form.dueDate.errors %}
-                    <script type="text/javascript">
-                        $(function() {
-                          const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                          });
-                          Toast.fire({
-                            icon: 'error',
-                            title: '{{ error }}'
-                          })
-                        });
-                    </script>
-                  {% endfor %}
-                {% endif %}
-              </div>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
+        <div class="card-body">
+          <div class="form-group">{{ form_field(form.name, 'text') }}</div>
+          <div class="form-group">{{ form_field(form.cmnd, 'cmnd') }}</div>
+          <div class="form-group">{{ form_field(form.phone, 'phone') }}</div>
+          <div class="form-group">{{ form_field(form.company, 'text') }}</div>
+          <div class="form-group">{{ form_field(form.reason, 'text') }}</div>
+          <div class="form-group">{{ form_field(form.dueDate, 'date') }}</div>
         </div>
-        <div class="col-md-6">
-          <div class="card card-secondary">
-            <div class="card-header">
-              <h3 class="card-title">Thông tin thêm</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fas fa-minus"></i></button>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="form-group">
-                {{ form_field(form.image) }}
-                {{ form.image(size=32, class='form-control' )}}
-              </div>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
+        <!-- /.card-body -->
       </div>
-      <div class="row">
-        <div class="col-12">
-          {{ form.submit(class='btn btn-success float-right') }}
-        </div>
-      </div>
-    
-    </form>
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Phiên bản</b> 0.0.1
+      <!-- /.card -->
     </div>
-    <strong>Trang web được ManhMaid Game Studio làm theo đơn đặt hàng của ông VTA vào tháng 04/2020.</strong> Copy nhớ có tâm chút nha.
-  </footer>
+    <div class="col-md-6">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Thông tin thêm</h3>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+              <i class="fas fa-minus"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="form-group">{{ form_field(form.image, 'text') }}</div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      {{ form.submit(class='btn btn-success float-right') }}
+    </div>
+  </div>
 
-<!-- Bootstrap 4 -->
-<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- SweetAlert 2 -->
-<script src="{{ url_for('static', filename='sweetalert2/sweetalert2.min.js') }}"></script>
-<!-- InputMask -->
-<script src="{{ url_for('static', filename='inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url_for('static', filename='dist/js/adminlte.min.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ url_for('static', filename='dist/js/demo.js') }}"></script>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <script type="text/javascript">
-            $(function() {
-              const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-              });
-              Toast.fire({
-                icon: 'success',
-                title: '{{message}}'
-              })
-            });
-        </script>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-<script type="text/javascript">
-    $(function() {
-      $('#dueDate').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-      $('[data-mask]').inputmask()
-    });
-</script>
-</body>
-</html>
+</form>
+{% endblock %}

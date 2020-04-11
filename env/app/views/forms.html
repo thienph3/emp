@@ -1,4 +1,28 @@
-{% macro form_field(field) %}
+{% macro form_field(field, type) %}
     {% if field.flags.required %}{{ field.label }}<sup><font color='red' size='1'> (*)</font></sup>
-    {% else %}{{ field.label }}{% endif %}
+    {% else %}{{ field.label }}
+    {% endif %}
+    {% if type == 'text' %}{{ field(size=32, class='form-control') }}
+    {% elif type == 'cmnd' %}{{ field(class='form-control', data_inputmask="'mask': ['999.999.999', '999.999.999.999']", data_mask='') }}
+    {% elif type == 'phone' %}{{ field(class='form-control', data_inputmask="'mask': ['0999.999.999', '+99 999.999.999']", data_mask='') }}
+    {% elif type == 'date' %}{{ field(class='form-control', data_inputmask_alias='datetime', data_inputmask_inputformat='dd/mm/yyyy', data_mask='') }}
+    {% endif %}
+    {% if field.errors %}
+        {% for error in field.errors %}
+        <script type="text/javascript">
+            $(function() {
+                const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+                });
+                Toast.fire({
+                icon: 'error',
+                title: '{{ error }}'
+                })
+            });
+        </script>
+        {% endfor %}
+    {% endif %}
 {% endmacro %}
