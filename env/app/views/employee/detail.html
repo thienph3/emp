@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Thêm nhân viên mới{% endblock %}
-{% block title2 %}Thêm nhân viên mới{% endblock %}
-{% block title3 %}Thêm nhân viên mới{% endblock %}
+{% block title %}Thông tin nhân viên {{ e.Name }}{% endblock %}
+{% block title2 %}Thông tin nhân viên {{ e.Name }}{% endblock %}
+{% block title3 %}Thông tin nhân viên {{ e.Name }}{% endblock %}
 {% block path %}{% endblock %}
 {% block content %}
 <div class="row">
@@ -57,8 +57,12 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <label for="Reason">Ảnh chân dung</label>
+          <label for="Image">Ảnh chân dung</label>
           <input class="form-control" id="Image" name="Image" size="32" type="text" value="{{ e.Image }}" disabled>
+        </div>
+        <div class="form-group">
+          <label>Mã nhận diện</label>
+          <div id="qrcode"></div>
         </div>
       </div>
       <!-- /.card-body -->
@@ -67,7 +71,13 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-12 text-right">
+  <div class="col-6">
+    <button class="btn btn-primary btn-sm form-click" data-id='{{ e.ID }}' data-btn='4'>
+      <i class="fas fa-backward"></i>
+      Về danh sách
+  </button>
+  </div>
+  <div class="col-6 text-right">
     {% if e.Status == 0 %}
     <button class="btn btn-success btn-sm form-click" data-id='{{ e.ID }}' data-btn='1'>
         <i class="fas fa-edit"></i>
@@ -92,6 +102,14 @@
 </div>
 <script type="text/javascript">
   $(function() {
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+      text: "ID={{ e.ID }}&CMND={{ e.CMND }}",
+      width: 256,
+      height: 256,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
     $(".form-click").click(function(){
       id = parseInt($(this).attr("data-id"));
       status = parseInt($(this).attr("data-btn"));
@@ -100,16 +118,20 @@
         return True;
       }
       if (status == 3) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000
-        });
-        Toast.fire({
-          icon: 'warning',
-          title: 'Bố chưa thích làm. ok?'
-        });
+        var docDefinition = {
+          content: [
+            {
+              image: $('#qrcode > img').attr('src'),
+              width: 256,
+              height: 256
+            }
+          ]
+        };
+        pdfMake.createPdf(docDefinition).download('ID={{ e.ID }}&CMND={{ e.CMND }}&Name={{ e.Name }}.pdf');
+        return true;
+      }
+      if (status == 4) {
+        window.location.href = '/list';
         return true;
       }
       $.ajax({

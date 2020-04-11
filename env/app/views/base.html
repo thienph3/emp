@@ -81,6 +81,8 @@
 <script src="{{ url_for('static', filename='dist/js/demo.js') }}"></script>
 <!-- QRCode -->
 <script src="{{ url_for('static', filename='qrcode/min/qrcode.min.js') }}"></script>
+<!-- PDFMake -->
+<script src="{{ url_for('static', filename='pdfmake/pdfmake.min.js') }}"></script>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
