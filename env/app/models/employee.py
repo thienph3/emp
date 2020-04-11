@@ -48,7 +48,7 @@ class Employee:
         employee.Status = Status.INIT.value
         employee.DueDate = employee.DueDate.strftime("%Y-%m-%d %H:%M:%S")
         employee.CreatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        employee.CreatedAt = employee.CreatedAt
+        employee.UpdatedAt = employee.CreatedAt
         data = json.dumps(employee.__dict__)
         with open(LOCAL_FILE, 'a+') as f:
             f.write(data) 
@@ -60,10 +60,11 @@ class Employee:
     def getEmployeesByStatus(status):
         data = []
         with open(LOCAL_FILE, 'r') as f:
-            data = f.read()
+            data = f.readlines()
             result  = [] 
             for row in data: 
-                if row.get(Status) == status:
+                row = json.loads(row)
+                if row.get(Status) in status or len(status) == 0:
                     result.append(row)
         return result
 

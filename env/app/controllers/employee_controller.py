@@ -17,4 +17,12 @@ def index():
     return render_template('employee/index.html', form=form)
 
 def list():
-    return render_template('employee/list.html', form=None)
+    list = Employee.getEmployeesByStatus([])
+    print(list)
+    #if form.validate_on_submit():
+    #    if False:
+    #        flash('Test')
+    #    else:
+    #        flash('Có gì đó sai sai.')
+    #    return redirect('/list')
+    return render_template('employee/list.html', list=list)
