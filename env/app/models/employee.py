@@ -1,14 +1,14 @@
 import json
 from datetime import datetime
 import os
-from app.models.enum import Status
+from env.app.models.enum import Status
 
 # CURRENT_WD = os.path.dirname(os.path.realpath(__file__))
 CURRENT_WD = os.path.abspath('env/app')
 LOCAL_FILE = CURRENT_WD + '/datas/database.json'
 
 class Employee:
-    def __init__(self, Name, CMND, Phone, Company, Reason, DueDate, Image=None, ID=0 , CreatedAt=None, Status=None, UpdatedAt=None):
+    def __init__(self, Name=None, CMND=None, Phone=None, Company=None, Reason=None, DueDate=None, Image=None, ID=0 , CreatedAt=None, Status=None, UpdatedAt=None):
         # import pdb
         # pdb.set_trace()
         self.ID = ID 
@@ -22,10 +22,24 @@ class Employee:
         self.Status = Status
         self.CreatedAt = None
         self.UpdatedAt = None
+    
+
+    @staticmethod
+    def datetime_to_string(cols, e, format_string):
+        if e[cols] is not None:
+            return datetime.strptime(e[cols], format_string) 
+        else:
+            return None
+
 
     @staticmethod
     def cast(e):
-        return Employee(e['Name'], e['CMND'], e['Phone'], e['Company'], e['Reason'], e['DueDate'], e['Image'], e['ID'], e['CreatedAt'], e['Status'], e['UpdatedAt'])
+        e = json.loads(e)
+        e['DueDate'] = Employee.datetime_to_string('DueDate', e, "%Y-%m-%d") 
+        e['CreatedAt'] = Employee.datetime_to_string('CreatedAt', e, "%Y-%m-%d %H:%M:%S") 
+        e['UpdatedAt'] = Employee.datetime_to_string('UpdatedAt', e, "%Y-%m-%d %H:%M:%S") 
+        return Employee(**e)
+        # return Employee(e['Name'], e['CMND'], e['Phone'], e['Company'], e['Reason'], e['DueDate'], e['Image'], e['ID'], e['CreatedAt'], e['Status'], e['UpdatedAt'])
 
     @staticmethod
     def createNewID():
@@ -122,23 +136,25 @@ class Employee:
         return Employee.insertEmployeeToDatabase(emp)
     
 if __name__ == "__main__":
-    _new_emp = {'Name' : 'MaiAnh_123', 
-                'CMND': 123456, 
-                'Phone': 78910, 
-                'Company': 'ABC' , 
-                'Reason': 'new', 
-                # 'DueDate': '2020-03-04', 
-                'Image': None }
-    __test_dict = { 'ID' : 7,
-                    'Name' : 'MaiAnh_123', 
-                    'CMND': 123456, 
-                    'Phone': 78910, 
-                    'Company': 'ABC' , 
-                    'Reason': 'new', 
-                    # 'DueDate': '2020-03-04', 
-                    'Image': None }
-    # Employee.insertEmployee(Employee(**_new_emp))
-    # maianh_07 = Employee(**__test_dict)
-    print('__1', Employee.getEmployeeByID(3))
-    print('__2',Employee.getAllEmployeesByID([2,3]))
-    print('__3',Employee.getEmployeesByStatus([0,1]))
+    # _new_emp = {'Name' : 'MaiAnh_123', 
+    #             'CMND': 123456, 
+    #             'Phone': 78910, 
+    #             'Company': 'ABC' , 
+    #             'Reason': 'new', 
+    #             # 'DueDate': '2020-03-04', 
+    #             'Image': None }
+    # __test_dict = { 'ID' : 7,
+    #                 'Name' : 'MaiAnh_123', 
+    #                 'CMND': 123456, 
+    #                 'Phone': 78910, 
+    #                 'Company': 'ABC' , 
+    #                 'Reason': 'new', 
+    #                 # 'DueDate': '2020-03-04', 
+    #                 'Image': None }
+    # # Employee.insertEmployee(Employee(**_new_emp))
+    # # maianh_07 = Employee(**__test_dict)
+    # print('__1', Employee.getEmployeeByID(3))
+    # print('__2',Employee.getAllEmployeesByID([2,3]))
+    # print('__3',Employee.getEmployeesByStatus([0,1]))
+    a = '{"ID": 3, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 2, "CreatedAt": null, "UpdatedAt": "2020-04-12 00:52:29"}'
+    print(Employee.cast(a))
