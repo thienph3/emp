@@ -4,7 +4,7 @@ import os
 from app.models.enum import Status
 
 # CURRENT_WD = os.path.dirname(os.path.realpath(__file__))
-CURRENT_WD = 'app'
+CURRENT_WD = os.path.abspath('env/app')
 LOCAL_FILE = CURRENT_WD + '/datas/database.json'
 
 class Employee:
@@ -46,7 +46,9 @@ class Employee:
             return False
         employee.ID = Employee.createNewID()
         employee.Status = Status.INIT.value
+        employee.DueDate = employee.DueDate.strftime("%Y-%m-%d %H:%M:%S")
         employee.CreatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        employee.CreatedAt = employee.CreatedAt
         data = json.dumps(employee.__dict__)
         with open(LOCAL_FILE, 'a+') as f:
             f.write(data) 
