@@ -17,9 +17,13 @@ app.config['SECRET_KEY'] = 'emp_secret'
 def index():
     return employee_controller.index()
 
-@app.route('/list', methods=['GET', 'POST'])
+@app.route('/list', methods=['GET'])
 def list():
     return employee_controller.list()
+
+@app.route('/update', methods=['POST'])
+def update(employee):
+    return employee_controller.update(employee)
 
 
 if __name__ == "__main__":

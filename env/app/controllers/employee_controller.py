@@ -18,11 +18,7 @@ def index():
 
 def list():
     list = Employee.getEmployeesByStatus([])
-    print(list)
-    #if form.validate_on_submit():
-    #    if False:
-    #        flash('Test')
-    #    else:
-    #        flash('Có gì đó sai sai.')
-    #    return redirect('/list')
     return render_template('employee/list.html', list=list)
+
+def update(employee):
+    return Employee.updateEmployeeByID(employee)

@@ -39,6 +39,13 @@ class Employee:
         return id 
 
     @staticmethod
+    def insertEmployeeToDatabase(employee):
+        with open(LOCAL_FILE, 'a+') as f:
+            f.write(employee) 
+            f.write('\n')
+        return True
+
+    @staticmethod
     def insertEmployee(employee):
         # import pdb
         # pdb.set_trace()
@@ -50,10 +57,8 @@ class Employee:
         employee.CreatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         employee.UpdatedAt = employee.CreatedAt
         data = json.dumps(employee.__dict__)
-        with open(LOCAL_FILE, 'a+') as f:
-            f.write(data) 
-            f.write('\n')
-        return True
+        
+        return insertEmployeeToDatabase(data)
 
     # thêm CreatedAt 
     @staticmethod
@@ -81,32 +86,16 @@ class Employee:
         return result
 
     @staticmethod
-    def updateEmployeeByID(employee): # check employee status  # convert to another type # update # save again
+    def updateEmployeeByID(employee):
+        emp = Employee.getEmployeeByID(employee.ID)
+        if emp is None:
+            return False
+        if !((emp.Status == 0 and employee.Status in (1, 2)) or (emp.Status == 2 and employee.Staus == 1)):
+            return False
+        emp.Status = employee.Status
+        emp.UpdatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        existing_employee = Employee.getEmployeeByID(employee.ID)
-        updated_info = employee.__dict__
-        try: 
-            if updated_info.Status in (1,2) and existing_employee.ID in (0):
-                return -1 
-        except:
-            pass
-        for k, v in updated_info.items():
-            if hasattr(existing_employee, k) and v is not None:
-                    setattr(existing_employee, k, v)
-        import pdb
-        pdb.set_trace()
-        existing_employee.UpdatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        row_to_edit = json.dumps(existing_employee.__dict__) 
-        # cách 1: 
-        with open (LOCAL_FILE, 'r') as read_file, open(LOCAL_FILE.replace('.json', '_new.json'), 'w') as write_file:
-            for row in read_file:
-                if row['ID'] == employee.ID:
-                    write_file.write(row_to_edit)
-                else:
-                    write_file.row()
-        return 0 
-
-
+        return insertEmployeeToDatabase(emp)
     
 if __name__ == "__main__":
     _new_emp = {'Name' : 'MaiAnh_123', 
