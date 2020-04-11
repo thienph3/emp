@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 import os
-from app.models.enum import Status
+from env.app.models.enum import Status
 
 # CURRENT_WD = os.path.dirname(os.path.realpath(__file__))
 CURRENT_WD = os.path.abspath('env/app')
@@ -25,17 +25,14 @@ class Employee:
 
     @staticmethod
     def createNewID():
-        # import pdb
-        # pdb.set_trace()
         with open(CURRENT_WD + '/datas/index.txt', 'r' ) as f:
-            current_index = f.read()
-            if current_index =='':
+            __current_index = f.read()
+            
+            if __current_index =='':
                 id = 0
             else:
-                id = int(current_index) + 1
-
-        with open(CURRENT_WD + '/datas/index.txt', 'w+' ) as f:
-            f.write(str(id))
+                __current_index_json = json.loads(__current_index)
+                id = int(__current_index_json['Employee']) + 1
         return id 
 
     @staticmethod
@@ -60,30 +57,52 @@ class Employee:
         
         return insertEmployeeToDatabase(data)
 
-    # thêm CreatedAt 
     @staticmethod
-    def getEmployeesByStatus(status):
+    def getEmployeesByStatus(statuses):
         data = []
         with open(LOCAL_FILE, 'r') as f:
             data = f.readlines()
-            result  = [] 
-            for row in data: 
-                row = json.loads(row)
-                if row.get(Status) in status or len(status) == 0:
-                    result.append(row)
+            lated_result = [] 
+            looped_ids = [] 
+            for i in range(len(data)-1,0, -1):
+                row = json.loads(data[i])
+                if row.get('ID') not in looped_ids: 
+                    lated_result.append(row)
+                    looped_ids.append(row.get('ID'))
+        result = [] 
+        for row in lated_result: 
+            if row.get('Status') in statuses or len(statuses) == 0:
+                result.append(row)
         return result
 
-# thêm updated at 
+
     @staticmethod
     def getEmployeeByID(id):
-        # import pdb
-        # pdb.set_trace()
+        data = []
         with open(LOCAL_FILE, 'r') as f:
-            for line in f:
-                row = json.loads(line)
+            data = f.readlines()
+            result = []
+            for row in data:
+                row = json.loads(row)
                 if row.get('ID') == id:
-                    result = Employee(**row)
-        return result
+                    result.append(row)
+            if len(result) == 0:
+                return None
+            return result[-1]
+
+    @staticmethod
+    def getAllEmployeesByID(ids):
+        data = []
+        with open(LOCAL_FILE, 'r') as f:
+            data = f.readlines()
+            result = [] 
+            looped_ids = [] 
+            for i in range(len(data)-1,0, -1):
+                row = json.loads(data[i])
+                if row.get('ID') not in looped_ids and row.get('ID') in ids: 
+                    result.append(row)
+                    looped_ids.append(row.get('ID'))
+            return result
 
     @staticmethod
     def updateEmployeeByID(employee):
@@ -103,7 +122,7 @@ if __name__ == "__main__":
                 'Phone': 78910, 
                 'Company': 'ABC' , 
                 'Reason': 'new', 
-                'DueDate': '2020-03-04', 
+                # 'DueDate': '2020-03-04', 
                 'Image': None }
     __test_dict = { 'ID' : 7,
                     'Name' : 'MaiAnh_123', 
@@ -111,14 +130,10 @@ if __name__ == "__main__":
                     'Phone': 78910, 
                     'Company': 'ABC' , 
                     'Reason': 'new', 
-                    'DueDate': '2020-03-04', 
+                    # 'DueDate': '2020-03-04', 
                     'Image': None }
-    # print(type(__test_dict))
-    Employee.insertEmployee(Employee(**_new_emp))
-    maianh_07 = Employee(**__test_dict)
-    # print(maianh_07)
-    # print(maianh_07.ID)
-    # print(maianh)
-    # Employee.getEmployeeByID(7)
-    # Employee.updateEmployeeByID(maianh_07)
-    # Employee.getEmployeesByStatus(0)
+    # Employee.insertEmployee(Employee(**_new_emp))
+    # maianh_07 = Employee(**__test_dict)
+    print('__1', Employee.getEmployeeByID(3))
+    print('__2',Employee.getAllEmployeesByID([2,3]))
+    print('__3',Employee.getEmployeesByStatus([0,1]))
