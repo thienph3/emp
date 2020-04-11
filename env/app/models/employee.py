@@ -20,8 +20,8 @@ class Employee:
         self.DueDate = DueDate
         self.Image = Image
         self.Status = Status
-        self.CreatedAt = None
-        self.UpdatedAt = None
+        self.CreatedAt = CreatedAt
+        self.UpdatedAt = UpdatedAt
 
     @staticmethod
     def cast(e):
@@ -111,7 +111,6 @@ class Employee:
     @staticmethod
     def updateEmployeeByID(employee):
         emp = Employee.getEmployeeByID(employee.ID)
-        print(emp)
         if emp is None:
             return False
         if not((emp.Status == 0 and employee.Status in (1, 2)) or (emp.Status == 2 and employee.Status == 1)):

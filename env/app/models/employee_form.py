@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, SubmitField
 from wtforms.validators import DataRequired, Length
+from app.models.employee import Employee
 
 class EmployeeForm(FlaskForm):
     Name = StringField('Họ tên', validators=[DataRequired(message=('Chưa nhập họ tên'))])

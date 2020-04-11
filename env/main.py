@@ -30,6 +30,10 @@ def update():
     Status = d['Status']
     return str(employee_controller.update(ID, Status))
 
+@app.route('/get/<ID>', methods=['GET'])
+def get(ID):
+    return employee_controller.get(int(ID))
+
 
 if __name__ == "__main__":
     app.run()

@@ -7,7 +7,7 @@ def getEmployee(form):
     return Employee(form.Name.data, form.CMND.data, form.Phone.data, form.Company.data, form.Reason.data, form.DueDate.data, form.Image.data, 0, datetime.now(), 0, datetime.now())
 
 def index():
-    form = EmployeeForm()
+    form = EmployeeForm(None)
     if form.validate_on_submit():
         if Employee.insertEmployee(getEmployee(form)):
             flash('Nhân viên {}, số CMND: {} khởi tạo thành công.'.format(form.Name.data, form.CMND.data))
@@ -22,3 +22,7 @@ def list():
 
 def update(ID, Status):
     return Employee.updateEmployeeByID(Employee('', '', '', '', '', '', '', ID, datetime.now(), Status, datetime.now()))
+
+def get(ID):
+    e = Employee.getEmployeeByID(ID)
+    return render_template('employee/detail.html', e=e)
