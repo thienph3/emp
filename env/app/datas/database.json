@@ -3,7 +3,3 @@
 {"ID": 2, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 0, "CreatedAt": "2020-04-11 20:42:35", "UpdatedAt": null}
 {"ID": 3, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 0, "CreatedAt": "2020-04-11 20:42:50", "UpdatedAt": null}
 {"ID": 8, "Name": "Ph\u1ea1m H\u1eefu Thi\u00ean \u0111\u1eb9p trai", "CMND": "225.341.825", "Phone": "0987.802.026", "Company": "ManhMaid Game Studio", "Reason": "Th\u00edch", "DueDate": "2020-04-12 00:00:00", "Image": "", "Status": 0, "CreatedAt": "2020-04-11 21:52:53", "UpdatedAt": null}
-{"ID": 0, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 1, "CreatedAt": null, "UpdatedAt": "2020-04-12 00:11:03"}
-{"ID": 1, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 1, "CreatedAt": null, "UpdatedAt": "2020-04-12 00:11:06"}
-{"ID": 3, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 1, "CreatedAt": null, "UpdatedAt": "2020-04-12 00:11:08"}
-{"ID": 2, "Name": "MaiAnh_123", "CMND": 123456, "Phone": 78910, "Company": "ABC", "Reason": "new", "DueDate": "2020-03-04", "Image": null, "Status": 2, "CreatedAt": null, "UpdatedAt": "2020-04-12 00:12:42"}

@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 import os
-from env.app.models.enum import Status
+from app.models.enum import Status
 
 # CURRENT_WD = os.path.dirname(os.path.realpath(__file__))
 CURRENT_WD = os.path.abspath('env/app')
@@ -22,6 +22,10 @@ class Employee:
         self.Status = Status
         self.CreatedAt = None
         self.UpdatedAt = None
+
+    @staticmethod
+    def cast(e):
+        return Employee(e['Name'], e['CMND'], e['Phone'], e['Company'], e['Reason'], e['DueDate'], e['Image'], e['ID'], e['CreatedAt'], e['Status'], e['UpdatedAt'])
 
     @staticmethod
     def createNewID():
@@ -64,7 +68,7 @@ class Employee:
             data = f.readlines()
             lated_result = [] 
             looped_ids = [] 
-            for i in range(len(data)-1,0, -1):
+            for i in range(len(data)-1, -1, -1):
                 row = json.loads(data[i])
                 if row.get('ID') not in looped_ids: 
                     lated_result.append(row)
@@ -72,8 +76,8 @@ class Employee:
         result = [] 
         for row in lated_result: 
             if row.get('Status') in statuses or len(statuses) == 0:
-                result.append(row)
-        return result
+                result.append(Employee.cast(row))
+        return sorted(result, key=lambda row: row.ID)
 
 
     @staticmethod
@@ -88,7 +92,7 @@ class Employee:
                     result.append(row)
             if len(result) == 0:
                 return None
-            return result[-1]
+            return Employee.cast(result[-1])
 
     @staticmethod
     def getAllEmployeesByID(ids):
@@ -97,16 +101,17 @@ class Employee:
             data = f.readlines()
             result = [] 
             looped_ids = [] 
-            for i in range(len(data)-1,0, -1):
+            for i in range(len(data)-1, -1, -1):
                 row = json.loads(data[i])
                 if row.get('ID') not in looped_ids and row.get('ID') in ids: 
-                    result.append(row)
+                    result.append(Employee.cast(row))
                     looped_ids.append(row.get('ID'))
             return result
 
     @staticmethod
     def updateEmployeeByID(employee):
         emp = Employee.getEmployeeByID(employee.ID)
+        print(emp)
         if emp is None:
             return False
         if not((emp.Status == 0 and employee.Status in (1, 2)) or (emp.Status == 2 and employee.Status == 1)):
