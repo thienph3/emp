@@ -95,7 +95,7 @@ class Employee:
         emp.Status = employee.Status
         emp.UpdatedAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        return insertEmployeeToDatabase(emp)
+        return Employee.insertEmployeeToDatabase(emp)
     
 if __name__ == "__main__":
     _new_emp = {'Name' : 'MaiAnh_123', 
