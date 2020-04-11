@@ -1,10 +1,19 @@
-from flask import Flask
+from flask import Flask, request
 from app.controllers import employee_controller
-app = Flask(__name__, template_folder='app/views')
-#print(app.template_folder)
-app.debug = True
+import os
 
-@app.route('/')
+TEMPLATE_DIR = os.path.abspath('env/app/views')
+STATIC_DIR = os.path.abspath('env/app/plugins')
+
+print(TEMPLATE_DIR, STATIC_DIR)
+
+app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
+print(app.template_folder, app.static_folder)
+
+app.debug = True
+app.config['SECRET_KEY'] = 'emp_secret'
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
     return employee_controller.index()
 

@@ -1,6 +1,13 @@
-from flask import render_template
+from flask import render_template, flash, redirect, request
 from app.models.employee import Employee
+from app.models.employee_form import EmployeeForm
 
 def index():
-    e = Employee('Name vớ vẩn (cái name này là do controller truyền vào nhá)')
-    return render_template('employee/index.html', data=e)
+    form = EmployeeForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            flash('Nhân viên {}, số CMND: {} khởi tạo thành công.'.format(form.name.data, form.cmnd.data))
+            return redirect('/')
+        #flash('Có gì đó sai sai.')
+        #return render_template('employee/index.html', form=form)
+    return render_template('employee/index.html', form=form)
